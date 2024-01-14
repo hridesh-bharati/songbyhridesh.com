@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Music Player</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            height: 100vh;
+            width: 100vw;
+            background-repeat: no-repeat;
+            background-position: center;
+            background: black;
+        }
+
+        audio {
+            width: 100%;
+            margin: 20px auto;
+            display: block;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        #playlist {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vw;
+        }
+
+        .wave {
+            width: 100%;
+            position: relative;
+            bottom: 0;
+        }
+
+        .logo {
+            border: 1px solid #000;
+            padding: 1rem 3rem 1rem 3rem;
+            border-radius: 5%;
+            background: #111;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="text-center" id="playlist">
+        <img class="logo " src="logo.png">
+        <img class="wave p-0 m-0" src="waves.gif">
+    <div id="songInfo" class="pt-3 text-info">
+            <p>
+                <span id="songNumber"></span>
+            </p>
+        </div>
+        <audio class="p-0 m-0" id="myAudio" controls>
+            <source id="audioSource" src="" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+
+        
+<p class="p-0 m-0">Designed by Hridesh</p>
+
+        <div class="pb-0 pt-3">
+            <button class="btn btn-danger px-3 fs-2 mx-3" onclick="playPrevious()">
+                <i class="fa fa-step-backward" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-danger px-3 fs-2 mx-3" id="playPauseButton" onclick="togglePlayPause()">
+                <i class="fa fa-play" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-danger px-3 fs-2 mx-3" onclick="playNext()">
+                <i class="fa fa-step-forward" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const audio = document.getElementById("myAudio");
+        const audioSource = document.getElementById("audioSource");
+        const currentSongNumberElement = document.getElementById("songNumber");
+        const totalSongsElement = document.getElementById("totalSongs");
+        const playlist = ["a.mp3", "b.mp3", "c.mp3", "d.mp3", "e.mp3", "f.mp3", "g.mp3", "h.mp3", "i.mp3", "j.mp3", "k.mp3", "l.mp3", "m.mp3", "n.mp3", "o.mp3"];
+        const songNames = ["Mere mahabub me", "Animal Song", "Hawayen Arijit singh", "Tu jo hai . Mr. x song", "O sathi o sathi:Jubin song", "jo aakh lad jawe", "kalastar Honey Song", "Love Dose : Honey singh", "Bhootnath : Honey singh", "Apana banale Piya",
+         "Jindagi se jane ka kya loge", "Kala Rang", "System pe system", "ladaki kharab kar di", "Keshariya tera isqu "];
+
+        let currentSongIndex = 0;
+
+        function updateCurrentSongNumber() {
+            currentSongNumberElement.textContent = `${currentSongIndex + 1}. ${songNames[currentSongIndex]}`;
+        }
+
+        function updateTotalSongs() {
+            totalSongsElement.textContent = playlist.length;
+        }
+
+        function playPrevious() {
+            currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+            audioSource.src = playlist[currentSongIndex];
+            audio.load();
+            audio.play();
+            updateCurrentSongNumber();
+        }
+
+        function togglePlayPause() {
+            const playPauseButton = document.getElementById("playPauseButton");
+
+            if (audio.paused) {
+                audio.play();
+                playPauseButton.innerHTML = '<i class="fa fa-pause" aria-hidden="true"></i>';
+            } else {
+                audio.pause();
+                playPauseButton.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
+            }
+        }
+
+        function playNext() {
+            currentSongIndex = (currentSongIndex + 1) % playlist.length;
+            audioSource.src = playlist[currentSongIndex];
+            audio.load();
+            audio.play();
+            updateCurrentSongNumber();
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            audioSource.src = playlist[currentSongIndex];
+            audio.load();
+            audio.play();
+            updateCurrentSongNumber();
+            updateTotalSongs();
+        });
+    </script>
+</body>
+
+</html>
